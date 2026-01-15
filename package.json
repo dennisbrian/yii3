@@ -1,0 +1,12 @@
+{
+    "name": "yii3-tailwind",
+    "version": "1.0.0",
+    "description": "Yii3 Demo with Tailwind CSS",
+    "scripts": {
+        "dev": "npx tailwindcss -i ./src/input.css -o ./assets/main/tailwind.css --watch",
+        "build": "npx tailwindcss -i ./src/input.css -o ./assets/main/tailwind.css --minify"
+    },
+    "devDependencies": {
+        "tailwindcss": "^3.4.1"
+    }
+}
