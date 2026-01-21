@@ -25,25 +25,34 @@ This document provides a detailed map of the project's directory structure.
 
 ## `src/` - Application Core
 
-The source code is organized by **Feature** (Web) and **Domain** (User, Shared).
+The source code is organized by **Layer** (Entity, Repository) and **Feature** (Web).
 
 ```
 src/
-├── Console/             # Console commands
-├── Entity/              # Data entities
-├── Repository/          # Data access repositories
+├── Console/             # Console commands (CLI)
+├── Entity/              # Domain Entities (Immutable data objects)
+│   └── User.php         # User entity definition
+├── Repository/          # Data Access Layer
+│   └── ...              # (Repositories would go here or in domain modules)
 ├── Shared/              # Shared utilities and components
-├── User/                # "User" Domain Module
-│   ├── Identity.php           # User identity entity
+├── User/                # "User" Domain Services & Logic
+│   ├── Identity.php           # User identity implementation
 │   └── IdentityRepository.php # User persistence logic
-├── Web/                 # Web Interface (Feature-based)
-│   ├── Auth/                  # Authentication feature
-│   ├── Dashboard/             # Dashboard feature
-│   ├── HomePage/              # Home page feature
-│   ├── Shared/                # Shared web components
-│   └── NotFound/              # 404 handling
+├── Web/                 # Web Interface (Feature-based Actions & Views)
+│   ├── Auth/                  # Login/Logout features
+│   │   ├── LoginAction.php
+│   │   ├── LogoutAction.php
+│   │   └── login.php (Template)
+│   ├── Dashboard/             # User Dashboard
+│   ├── HomePage/              # Landing Page
+│   ├── Shared/                # Shared Web Components (Layouts, etc.)
+│   └── NotFound/              # 404 Error Handling
 └── input.css            # Tailwind CSS source file
 ```
+
+> **Note on Structure:**
+> - **Domain Logic:** Split between `Entity/` (data structures) and `User/` (business logic/services).
+> - **Web Logic:** Grouped by "Feature" (e.g., `Auth`) rather than by technical type (Controller/View).
 
 ## `config/` - Configuration
 
@@ -75,8 +84,9 @@ docker/
 
 ```
 tests/
-├── Acceptance/          # Browser-based acceptance tests
-├── Functional/          # Controller/API tests
+├── Web/                 # End-to-End / Acceptance tests (Browser emulation)
+├── Functional/          # API / Integration tests
 ├── Unit/                # Unit tests for classes
+├── Console/             # Console command tests
 └── Support/             # Test support classes and helpers
 ```

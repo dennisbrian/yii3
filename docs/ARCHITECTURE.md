@@ -33,13 +33,13 @@ src/Web/
 │   └── home.php
 ```
 
-### 2. The Domain Layer (e.g., `src/User/`)
+### 2. The Domain Layer (`src/Entity`, `src/User`)
 Business logic is separated from the HTTP layer.
--   **Purpose:** Encapsulates business rules and data persistence.
--   **Components:**
-    -   **Entities:** Data objects (e.g., `Identity`).
-    -   **Repositories:** Data access layer (e.g., `IdentityRepository`).
-    -   **Services:** Business operations.
+
+**Pattern: Repository + Immutable Entity**
+Unlike Yii2's ActiveRecord (which mixes data and behavior), this project separates them:
+-   **Entities (`src/Entity`):** Plain, immutable PHP objects that hold data. They have NO knowledge of the database.
+-   **Repositories (`src/User/IdentityRepository`):** Classes responsible for saving and retrieving Entities from the database.
 
 ### 3. Configuration (`config/`)
 Configuration is managed by `yiisoft/config`. Instead of a single config file, configurations are split and merged.
@@ -55,12 +55,30 @@ The `composer.json` defines a `config-plugin-file`. When the app boots, the plug
 
 ## 🔄 Request Lifecycle
 
-1.  **Entry Point:** `public/index.php` (for Web) or `yii` (for Console).
-2.  **Container Build:** `yiisoft/config` loads and merges configurations to build the DI Container.
-3.  **Routing:** `yiisoft/router` matches the URL to a Route (defined in `config/common/routes.php`).
-4.  **Middleware:** The request passes through a global middleware pipeline (e.g., ErrorHandler, Session, CSRF).
-5.  **Action:** The matched Action class is instantiated and invoked.
-6.  **Response:** The Action returns a `Response` object (often using a `ViewRenderer`).
+```mermaid
+sequenceDiagram
+    participant User
+    participant Index as public/index.php
+    participant Config as Config Plugin
+    participant DI as DI Container
+    participant Router
+    participant Middleware
+    participant Action
+
+    User->>Index: HTTP Request
+    Index->>Config: Load Configuration
+    Config-->>DI: Build Container
+    Index->>DI: Get Application
+    DI-->>Index: Application Instance
+    Index->>Router: Match URL
+    Router-->>Middleware: Route Found
+    Middleware->>Middleware: Execute Global Middleware (CSRF, Session, Auth)
+    Middleware->>Action: Invoke Action
+    Action->>Action: Process Business Logic
+    Action-->>Middleware: Return Response
+    Middleware-->>Index: Return Response
+    Index-->>User: HTTP Response
+```
 
 ## 🎨 Frontend Architecture
 
@@ -74,3 +92,19 @@ The `composer.json` defines a `config-plugin-file`. When the app boots, the plug
 -   **Library:** `yiisoft/db` (Database Abstraction Layer).
 -   **Migrations:** Managed via `yiisoft/db-migration` in `migrations/`.
 -   **Repositories:** Used to abstract database queries from the business logic.
+
+## 🧩 Component Architecture
+
+```mermaid
+graph TD
+    subgraph Web Layer
+        A[LoginAction] -->|Uses| B[AuthService]
+        A -->|Renders| C[Login Template]
+    end
+
+    subgraph Domain Layer
+        B -->|Uses| D[IdentityRepository]
+        D -->|Returns| E[User Entity]
+        D -->|Queries| F[(Database)]
+    end
+```
