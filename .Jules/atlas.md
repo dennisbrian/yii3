@@ -13,3 +13,13 @@
 **Discovery:** Domain logic is separated into `src/User` (and potentially others), distinct from the Web layer.
 **Implication:** Keeps business logic decoupled from HTTP/Web concerns.
 **Documentation Action:** Highlight the Domain vs. Web separation.
+
+## 2024-05-22 - Deep Dive: User Domain & Database
+
+**Discovery:** Strict separation between `App\Entity\User` (Domain Model) and `App\User\Identity` (Authentication Identity).
+**Implication:** The class used for business logic is not the same as the one used for the session/auth. Changes to the business entity don't automatically break auth, but data syncing logic (via Repository) is crucial.
+**Documentation Action:** Created `docs/COMPONENTS.md` to detail this distinction.
+
+**Discovery:** Database migrations use `RevertibleMigrationInterface` with `MigrationBuilder`.
+**Implication:** Migrations are more fluent and explicit than Yii2. No `safeUp`/`safeDown`, just `up` and `down` with the builder object.
+**Documentation Action:** Documented this in `docs/DATABASE_SCHEMA.md`.

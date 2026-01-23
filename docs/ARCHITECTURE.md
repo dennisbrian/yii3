@@ -41,6 +41,8 @@ Business logic is separated from the HTTP layer.
     -   **Repositories:** Data access layer (e.g., `IdentityRepository`).
     -   **Services:** Business operations.
 
+See **[Key Components](COMPONENTS.md)** for a deep dive into the User Domain.
+
 ### 3. Configuration (`config/`)
 Configuration is managed by `yiisoft/config`. Instead of a single config file, configurations are split and merged.
 
@@ -57,7 +59,7 @@ The `composer.json` defines a `config-plugin-file`. When the app boots, the plug
 
 1.  **Entry Point:** `public/index.php` (for Web) or `yii` (for Console).
 2.  **Container Build:** `yiisoft/config` loads and merges configurations to build the DI Container.
-3.  **Routing:** `yiisoft/router` matches the URL to a Route (defined in `config/common/routes.php`).
+3.  **Routing:** `yiisoft/router` matches the URL to a Route. See **[API & Route Reference](API_REFERENCE.md)**.
 4.  **Middleware:** The request passes through a global middleware pipeline (e.g., ErrorHandler, Session, CSRF).
 5.  **Action:** The matched Action class is instantiated and invoked.
 6.  **Response:** The Action returns a `Response` object (often using a `ViewRenderer`).
@@ -74,3 +76,13 @@ The `composer.json` defines a `config-plugin-file`. When the app boots, the plug
 -   **Library:** `yiisoft/db` (Database Abstraction Layer).
 -   **Migrations:** Managed via `yiisoft/db-migration` in `migrations/`.
 -   **Repositories:** Used to abstract database queries from the business logic.
+
+See **[Database Schema](DATABASE_SCHEMA.md)** for table definitions and migration details.
+
+## 📚 Further Reading
+
+-   **[Directory Structure](DIRECTORY_STRUCTURE.md)**: Detailed map of the codebase.
+-   **[Setup Guide](SETUP.md)**: Instructions for running the app.
+-   **[API & Route Reference](API_REFERENCE.md)**: List of endpoints and routes.
+-   **[Database Schema](DATABASE_SCHEMA.md)**: Database tables and migration guide.
+-   **[Key Components](COMPONENTS.md)**: Deep dive into the User Domain and Identity.
