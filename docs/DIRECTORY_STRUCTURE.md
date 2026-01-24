@@ -29,19 +29,27 @@ The source code is organized by **Feature** (Web) and **Domain** (User, Shared).
 
 ```
 src/
-├── Console/             # Console commands
-├── Entity/              # Data entities
-├── Repository/          # Data access repositories
-├── Shared/              # Shared utilities and components
-├── User/                # "User" Domain Module
-│   ├── Identity.php           # User identity entity
-│   └── IdentityRepository.php # User persistence logic
-├── Web/                 # Web Interface (Feature-based)
-│   ├── Auth/                  # Authentication feature
-│   ├── Dashboard/             # Dashboard feature
-│   ├── HomePage/              # Home page feature
-│   ├── Shared/                # Shared web components
-│   └── NotFound/              # 404 handling
+├── Console/             # Console commands and handlers
+├── Entity/              # Domain Entities (Immutable Business Objects)
+│   └── User.php         # The User domain entity (NOT ActiveRecord)
+├── Repository/          # Data Access Layer (if not feature-specific)
+├── Shared/              # Shared domain utilities and components
+├── User/                # "User" Module (Identity & Auth)
+│   ├── Identity.php           # User Identity for Auth (implements IdentityInterface)
+│   └── IdentityRepository.php # Persistence for Identity (implements IdentityRepositoryInterface)
+├── Web/                 # Web Interface (Organized by Feature)
+│   ├── Auth/                  # Authentication Feature
+│   │   ├── LoginAction.php    # Handle Login (GET/POST)
+│   │   ├── LogoutAction.php   # Handle Logout
+│   │   └── login.php          # Login View Template
+│   ├── Dashboard/             # Dashboard Feature
+│   │   ├── DashboardAction.php
+│   │   └── index.php
+│   ├── HomePage/              # Home Page Feature
+│   │   ├── Action.php
+│   │   └── home.php
+│   ├── Shared/                # Shared Web Components (Layouts, etc.)
+│   └── NotFound/              # 404 Error Handling
 └── input.css            # Tailwind CSS source file
 ```
 

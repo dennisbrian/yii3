@@ -33,13 +33,26 @@ src/Web/
 │   └── home.php
 ```
 
-### 2. The Domain Layer (e.g., `src/User/`)
+### 2. The Domain Layer (e.g., `src/User/`, `src/Entity/`)
 Business logic is separated from the HTTP layer.
 -   **Purpose:** Encapsulates business rules and data persistence.
 -   **Components:**
-    -   **Entities:** Data objects (e.g., `Identity`).
+    -   **Entities:** Data objects (e.g., `Identity`, `User`).
     -   **Repositories:** Data access layer (e.g., `IdentityRepository`).
     -   **Services:** Business operations.
+
+**Component Architecture:**
+
+```mermaid
+graph TD
+    User([User]) -->|Request| Router[Router]
+    Router -->|Dispatch| Action[Action Class]
+    Action -->|Uses| Service[Service/Repo]
+    Service -->|Uses| Entity[Domain Entity]
+    Service -->|Query| DB[(Database)]
+    Action -->|Render| View[View Template]
+    View -->|HTML| User
+```
 
 ### 3. Configuration (`config/`)
 Configuration is managed by `yiisoft/config`. Instead of a single config file, configurations are split and merged.
@@ -61,6 +74,27 @@ The `composer.json` defines a `config-plugin-file`. When the app boots, the plug
 4.  **Middleware:** The request passes through a global middleware pipeline (e.g., ErrorHandler, Session, CSRF).
 5.  **Action:** The matched Action class is instantiated and invoked.
 6.  **Response:** The Action returns a `Response` object (often using a `ViewRenderer`).
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Index as public/index.php
+    participant Middleware
+    participant Router
+    participant Action
+    participant View
+
+    Client->>Index: HTTP Request
+    Index->>Middleware: Process Request
+    Middleware->>Router: Match Route
+    Router->>Middleware: Route Found
+    Middleware->>Action: Invoke Action
+    Action->>View: Render Template
+    View-->>Action: HTML Content
+    Action-->>Middleware: Response Object
+    Middleware-->>Index: Final Response
+    Index-->>Client: HTTP Response
+```
 
 ## 🎨 Frontend Architecture
 

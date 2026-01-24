@@ -1,15 +1,9 @@
-# 📖 ATLAS' JOURNAL
+# 📚 Atlas' Journal - Critical Learnings
 
-## 2024-05-22 - Initial Reconnaissance: Yii3 & Feature-Based Structure
-
-**Discovery:** This is a **Yii3** application, which differs significantly from Yii2. It uses a **feature-based directory structure** in `src/Web/` (e.g., `src/Web/HomePage`, `src/Web/Auth`) rather than the traditional flat `controllers/`, `views/` structure.
-**Implication:** Developers coming from Yii2 or standard MVC frameworks might look for a `controllers` directory and get lost. The `src/Web` directory mixes Actions (Controllers) and Templates (Views) by feature.
-**Documentation Action:** Will explicitly document this pattern in `ARCHITECTURE.md` and `DIRECTORY_STRUCTURE.md`.
-
-**Discovery:** Configuration is handled by `yiisoft/config` with a **merge plan** defined in `config/configuration.php`.
-**Implication:** Configs are not just simple files; they are assembled from `common`, `web`, `console` and environment specific files. "Where is the db config?" is a complex answer involving `config/common/params.php` or `config/environments/`.
-**Documentation Action:** Must explain the Config Plugin and where to find key settings (DB, Debug, etc.) in `ARCHITECTURE.md`.
-
-**Discovery:** Domain logic is separated into `src/User` (and potentially others), distinct from the Web layer.
-**Implication:** Keeps business logic decoupled from HTTP/Web concerns.
-**Documentation Action:** Highlight the Domain vs. Web separation.
+## 2026-01-16 - Auth vs Domain Separation
+**Discovery:** The codebase strictly separates User Identity (Authentication) from User Entity (Domain).
+**Implication:**
+- `App\User\Identity` (in `src/User/`) implements `IdentityInterface` and is used for session/auth checks.
+- `App\Entity\User` (in `src/Entity/`) is the domain model representing the business entity.
+- `App\User\IdentityRepository` handles persistence for auth, but there might be a separate repository for domain logic (though not seen yet, `IdentityRepository` seems to handle creation too).
+**Documentation Action:** This distinction must be highlighted in `COMPONENTS.md` and `ARCHITECTURE.md` to prevent confusion for new developers accustomed to ActiveRecord where one class does it all.
