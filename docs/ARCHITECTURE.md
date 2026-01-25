@@ -41,6 +41,31 @@ Business logic is separated from the HTTP layer.
     -   **Repositories:** Data access layer (e.g., `IdentityRepository`).
     -   **Services:** Business operations.
 
+### Component Dependency Graph
+
+```mermaid
+graph TD
+    subgraph Web Layer
+        A[Action]
+        B[View Template]
+    end
+    subgraph Domain Layer
+        C[Service]
+        D[Entity]
+        E[Repository]
+    end
+    subgraph Infrastructure
+        F[(Database)]
+    end
+
+    A --> C
+    A --> E
+    C --> D
+    E --> D
+    E --> F
+    A -.-> B
+```
+
 ### 3. Configuration (`config/`)
 Configuration is managed by `yiisoft/config`. Instead of a single config file, configurations are split and merged.
 
@@ -61,6 +86,19 @@ The `composer.json` defines a `config-plugin-file`. When the app boots, the plug
 4.  **Middleware:** The request passes through a global middleware pipeline (e.g., ErrorHandler, Session, CSRF).
 5.  **Action:** The matched Action class is instantiated and invoked.
 6.  **Response:** The Action returns a `Response` object (often using a `ViewRenderer`).
+
+```mermaid
+graph TD
+    A[Public/Index.php] --> B{DI Container}
+    B -->|Builds| C[Application Runner]
+    C --> D[Router]
+    D -->|Matches| E[Middleware Pipeline]
+    E --> F[Authentication Middleware]
+    F --> G[Action: __invoke()]
+    G --> H[ViewRenderer]
+    H --> I[Response]
+    I --> J[Emitter]
+```
 
 ## 🎨 Frontend Architecture
 

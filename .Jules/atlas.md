@@ -13,3 +13,9 @@
 **Discovery:** Domain logic is separated into `src/User` (and potentially others), distinct from the Web layer.
 **Implication:** Keeps business logic decoupled from HTTP/Web concerns.
 **Documentation Action:** Highlight the Domain vs. Web separation.
+
+## 2024-05-22 - Action Pattern & Single Action Controllers
+
+**Discovery:** Web Actions (e.g., `App\Web\Auth\LoginAction`) are implemented as **Single Action Controllers** using the `__invoke` method. They are standalone classes, not methods within a larger Controller class.
+**Implication:** This promotes the Single Responsibility Principle but increases the number of files. There is no "AuthController" with 10 methods.
+**Documentation Action:** Document the `__invoke` pattern in `COMPONENTS.md` and `ARCHITECTURE.md`.
