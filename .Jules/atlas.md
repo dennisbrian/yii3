@@ -1,15 +1,19 @@
-# 📖 ATLAS' JOURNAL
+# 📚 Atlas Journal
 
-## 2024-05-22 - Initial Reconnaissance: Yii3 & Feature-Based Structure
+## 2026-01-16 - Architectural Boundaries
 
-**Discovery:** This is a **Yii3** application, which differs significantly from Yii2. It uses a **feature-based directory structure** in `src/Web/` (e.g., `src/Web/HomePage`, `src/Web/Auth`) rather than the traditional flat `controllers/`, `views/` structure.
-**Implication:** Developers coming from Yii2 or standard MVC frameworks might look for a `controllers` directory and get lost. The `src/Web` directory mixes Actions (Controllers) and Templates (Views) by feature.
-**Documentation Action:** Will explicitly document this pattern in `ARCHITECTURE.md` and `DIRECTORY_STRUCTURE.md`.
+**Discovery:** Strict separation between Authentication Identity and Domain Entities.
+**Implication:** `App\User\Identity` is purely for the `yiisoft/auth` and `yiisoft/user` packages to handle session and login state. `App\Entity\User` is the actual business domain model.
+**Documentation Action:** Documented in `ARCHITECTURE.md` and `COMPONENTS.md` to prevent developers from conflating the two.
 
-**Discovery:** Configuration is handled by `yiisoft/config` with a **merge plan** defined in `config/configuration.php`.
-**Implication:** Configs are not just simple files; they are assembled from `common`, `web`, `console` and environment specific files. "Where is the db config?" is a complex answer involving `config/common/params.php` or `config/environments/`.
-**Documentation Action:** Must explain the Config Plugin and where to find key settings (DB, Debug, etc.) in `ARCHITECTURE.md`.
+## 2026-01-16 - Feature-Based Web Layer
 
-**Discovery:** Domain logic is separated into `src/User` (and potentially others), distinct from the Web layer.
-**Implication:** Keeps business logic decoupled from HTTP/Web concerns.
-**Documentation Action:** Highlight the Domain vs. Web separation.
+**Discovery:** `src/Web` is organized by Feature (e.g., `Auth`, `HomePage`) rather than technical layer (Controller/View).
+**Implication:** Each feature directory is self-contained with its Actions and Templates.
+**Documentation Action:** Reinforced in `DIRECTORY_STRUCTURE.md` and `COMPONENTS.md`.
+
+## 2026-01-16 - Configuration Strategy
+
+**Discovery:** Configuration is not monolithic but composed via `yiisoft/config` using a merge plan (`config/configuration.php`).
+**Implication:** Adding new configuration requires understanding the merge plan and placing files in `config/common` or `config/web`.
+**Documentation Action:** Already noted in `ARCHITECTURE.md`, confirmed accuracy.

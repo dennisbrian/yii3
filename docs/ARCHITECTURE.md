@@ -33,13 +33,21 @@ src/Web/
 │   └── home.php
 ```
 
-### 2. The Domain Layer (e.g., `src/User/`)
+### 2. The Domain Layer (`src/Entity/`, `src/User/`)
 Business logic is separated from the HTTP layer.
 -   **Purpose:** Encapsulates business rules and data persistence.
 -   **Components:**
-    -   **Entities:** Data objects (e.g., `Identity`).
+    -   **Entities:** Immutable data objects (e.g., `App\Entity\User`).
+    -   **Identity:** Authentication-specific state (e.g., `App\User\Identity`).
     -   **Repositories:** Data access layer (e.g., `IdentityRepository`).
-    -   **Services:** Business operations.
+
+#### ⚠️ Critical Distinction: Identity vs Entity
+It is crucial to distinguish between **Authentication Identity** (`src/User/`) and **Domain Entity** (`src/Entity/`).
+
+-   **`App\User\Identity`**: Implements `IdentityInterface` for `yiisoft/auth`. It handles session state, login checks, and auth keys. It interacts with the infrastructure.
+-   **`App\Entity\User`**: A pure Domain Model representing the Business User. It contains business logic and is decoupled from the authentication mechanism.
+
+**Do not mix them.** Use `Identity` for login/session checks. Use `Entity` for business operations.
 
 ### 3. Configuration (`config/`)
 Configuration is managed by `yiisoft/config`. Instead of a single config file, configurations are split and merged.

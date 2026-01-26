@@ -30,12 +30,12 @@ The source code is organized by **Feature** (Web) and **Domain** (User, Shared).
 ```
 src/
 ├── Console/             # Console commands
-├── Entity/              # Data entities
+├── Entity/              # Business Domain Entities (Immutable)
 ├── Repository/          # Data access repositories
 ├── Shared/              # Shared utilities and components
-├── User/                # "User" Domain Module
-│   ├── Identity.php           # User identity entity
-│   └── IdentityRepository.php # User persistence logic
+├── User/                # Identity & Authentication Module
+│   ├── Identity.php           # Auth Identity implementation
+│   └── IdentityRepository.php # Identity persistence logic
 ├── Web/                 # Web Interface (Feature-based)
 │   ├── Auth/                  # Authentication feature
 │   ├── Dashboard/             # Dashboard feature
