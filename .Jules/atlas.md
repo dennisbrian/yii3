@@ -13,3 +13,9 @@
 **Discovery:** Domain logic is separated into `src/User` (and potentially others), distinct from the Web layer.
 **Implication:** Keeps business logic decoupled from HTTP/Web concerns.
 **Documentation Action:** Highlight the Domain vs. Web separation.
+
+## 2024-05-22 - Domain Entities vs Auth Identity
+
+**Discovery:** The application strictly separates **Domain Entities** (`src/Entity/User.php`) from **Auth Identities** (`src/User/Identity.php`).
+**Implication:** The `User` class is a pure, immutable domain object (not ActiveRecord) used for business logic, while `Identity` is a lightweight adapter for the Authentication system. There is no single "User Model" that does everything.
+**Documentation Action:** Created `docs/COMPONENTS.md` to explain this distinction and updated `docs/ARCHITECTURE.md` with a class diagram.
