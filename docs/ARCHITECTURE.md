@@ -11,35 +11,32 @@ This application is built on **Yii3**, which differs significantly from Yii2.
 
 ## 📂 Application Structure
 
-The application follows a modular, feature-based structure rather than a traditional flat MVC (Model-View-Controller) structure.
+The application follows a modular, feature-based structure, strictly separating the **HTTP Layer** from the **Domain Layer**.
 
 ### 1. The Web Layer (`src/Web/`)
-The Web layer is organized by **Features** or **Pages**.
--   **Purpose:** Handles HTTP requests and responses.
+The Web layer is organized by **Features** or **Pages**. It handles the "Delivery Mechanism" (HTTP).
+-   **Purpose:** Handles HTTP requests, input validation, and rendering responses.
 -   **Components:**
-    -   **Actions:** Equivalent to Controller actions. Each Action is a standalone class (e.g., `App\Web\HomePage\Action`).
-    -   **Templates:** View files are often co-located or organized similarly.
-    -   **Forms:** Request validation models.
+    -   **Actions:** Single-action classes (e.g., `App\Web\HomePage\Action`) replace traditional "Controllers".
+    -   **Templates:** View files are co-located with the feature.
 
 **Example Structure:**
 ```
-src/Web/
-├── Auth/           # Authentication Feature
-│   ├── LoginAction.php
-│   ├── LogoutAction.php
-│   └── login.php   # Template
-├── HomePage/       # Home Page Feature
-│   ├── Action.php
-│   └── home.php
+src/Web/Auth/           # The Authentication Feature
+├── LoginAction.php     # Handles POST /login
+└── login.php           # The HTML template
 ```
 
-### 2. The Domain Layer (e.g., `src/User/`)
+### 2. The Domain Layer (`src/User/`, `src/Entity/`)
 Business logic is separated from the HTTP layer.
--   **Purpose:** Encapsulates business rules and data persistence.
--   **Components:**
-    -   **Entities:** Data objects (e.g., `Identity`).
-    -   **Repositories:** Data access layer (e.g., `IdentityRepository`).
-    -   **Services:** Business operations.
+
+-   **Entities (`src/Entity/`):** Immutable, plain PHP objects representing business data (e.g., `User`). These are **NOT** ActiveRecord models.
+-   **Identity (`src/User/Identity.php`):** Specifically for Authentication (implements `IdentityInterface`).
+-   **Repositories (`src/Repository/`):** Handle data persistence (SQL queries).
+
+#### ⚠️ Entity vs. Identity
+-   **Entity (`App\Entity\User`):** The full business object with all user data.
+-   **Identity (`App\User\Identity`):** A lightweight object used only for the current session state.
 
 ### 3. Configuration (`config/`)
 Configuration is managed by `yiisoft/config`. Instead of a single config file, configurations are split and merged.
@@ -47,7 +44,6 @@ Configuration is managed by `yiisoft/config`. Instead of a single config file, c
 -   **`configuration.php`:** The "Merge Plan". Defines how files are combined.
 -   **`common/`:** Configurations shared between Web and Console.
 -   **`web/`:** Web-specific configs (routes, request handling).
--   **`console/`:** Console-specific configs (commands).
 -   **`params.php`:** Simple key-value pairs (DB credentials, flags).
 
 **How it works:**
@@ -55,10 +51,23 @@ The `composer.json` defines a `config-plugin-file`. When the app boots, the plug
 
 ## 🔄 Request Lifecycle
 
-1.  **Entry Point:** `public/index.php` (for Web) or `yii` (for Console).
+```mermaid
+graph TD
+    A[Entry Point (index.php)] --> B[Config Plugin]
+    B --> C{DI Container}
+    C --> D[Router]
+    D --> E[Middleware Pipeline]
+    E --> F[Error Handler]
+    F --> G[Session/Auth]
+    G --> H[Action (e.g. LoginAction)]
+    H --> I[Response]
+    I --> J[Emitter (Send to Browser)]
+```
+
+1.  **Entry Point:** `public/index.php`.
 2.  **Container Build:** `yiisoft/config` loads and merges configurations to build the DI Container.
 3.  **Routing:** `yiisoft/router` matches the URL to a Route (defined in `config/common/routes.php`).
-4.  **Middleware:** The request passes through a global middleware pipeline (e.g., ErrorHandler, Session, CSRF).
+4.  **Middleware:** The request passes through a global middleware pipeline (Error Handling, Session, CSRF, Auth).
 5.  **Action:** The matched Action class is instantiated and invoked.
 6.  **Response:** The Action returns a `Response` object (often using a `ViewRenderer`).
 
@@ -73,4 +82,4 @@ The `composer.json` defines a `config-plugin-file`. When the app boots, the plug
 
 -   **Library:** `yiisoft/db` (Database Abstraction Layer).
 -   **Migrations:** Managed via `yiisoft/db-migration` in `migrations/`.
--   **Repositories:** Used to abstract database queries from the business logic.
+-   **Schema:** See [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md) for details.

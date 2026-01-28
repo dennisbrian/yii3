@@ -8,7 +8,7 @@ This document provides a detailed map of the project's directory structure.
 |------|---------|
 | `.Jules/` | Documentation journal and notes. |
 | `assets/` | Compiled frontend assets (e.g., generated Tailwind CSS). |
-| `config/` | Application configuration files. |
+| `config/` | Application configuration files (Merge Plan + Partials). |
 | `docker/` | Docker infrastructure configuration. |
 | `docs/` | Project documentation. |
 | `migrations/` | Database migration classes. |
@@ -25,23 +25,32 @@ This document provides a detailed map of the project's directory structure.
 
 ## `src/` - Application Core
 
-The source code is organized by **Feature** (Web) and **Domain** (User, Shared).
+The source code is organized by **Feature** (Web) and **Domain** (User, Entity).
 
 ```
 src/
 ├── Console/             # Console commands
-├── Entity/              # Data entities
-├── Repository/          # Data access repositories
-├── Shared/              # Shared utilities and components
-├── User/                # "User" Domain Module
-│   ├── Identity.php           # User identity entity
-│   └── IdentityRepository.php # User persistence logic
-├── Web/                 # Web Interface (Feature-based)
-│   ├── Auth/                  # Authentication feature
+├── Entity/              # Domain Entities (Immutable data objects)
+│   └── User.php         # The Business Entity for a User
+├── Repository/          # Data access logic (e.g., IdentityRepository)
+├── Shared/              # Shared utilities
+├── User/                # "User" Domain Module (Auth logic)
+│   ├── Identity.php           # Auth Identity (IdentityInterface)
+│   └── IdentityRepository.php # Persistence logic for Identity
+├── Web/                 # Web Interface (Organized by Feature)
+│   ├── Auth/                  # Login/Logout features
+│   │   ├── LoginAction.php    # Handles /login
+│   │   ├── LogoutAction.php   # Handles /logout
+│   │   └── login.php          # Login View Template
 │   ├── Dashboard/             # Dashboard feature
+│   │   ├── DashboardAction.php
+│   │   └── dashboard.php
 │   ├── HomePage/              # Home page feature
-│   ├── Shared/                # Shared web components
-│   └── NotFound/              # 404 handling
+│   │   ├── Action.php
+│   │   └── home.php
+│   ├── Shared/                # Shared Web Components
+│   │   └── Layout/            # Main layout templates
+│   └── NotFound/              # 404 Error handling
 └── input.css            # Tailwind CSS source file
 ```
 
@@ -52,12 +61,13 @@ Yii3 uses a plugin-based configuration system.
 ```
 config/
 ├── common/              # Configs shared by Web and Console
-│   ├── params.php       # Parameters (DB settings, etc.)
-│   └── routes.php       # URL Routing definitions
+│   ├── params.php       # Parameters (DB credentials, debug flags)
+│   ├── routes.php       # URL Routing definitions
+│   └── di/              # Dependency Injection definitions
 ├── console/             # Console-specific configs
 ├── web/                 # Web-specific configs
 ├── environments/        # Environment-specific overrides (dev, prod, test)
-└── configuration.php    # The "Merge Plan" - defines how configs are loaded
+└── configuration.php    # The "Merge Plan" - defines the load order
 ```
 
 ## `docker/` - Infrastructure
