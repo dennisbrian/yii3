@@ -25,17 +25,19 @@ This document provides a detailed map of the project's directory structure.
 
 ## `src/` - Application Core
 
-The source code is organized by **Feature** (Web) and **Domain** (User, Shared).
+The source code is organized by **Feature** (Web) and **Domain** (Entity, User, Shared).
 
 ```
 src/
 ├── Console/             # Console commands
-├── Entity/              # Data entities
-├── Repository/          # Data access repositories
+├── Entity/              # Domain Entities (Business Logic)
+│   └── User.php               # Full User Domain Model
+├── Repository/          # Domain Repositories (Data Access)
+│   └── UserRepository.php     # User Data Management
 ├── Shared/              # Shared utilities and components
-├── User/                # "User" Domain Module
-│   ├── Identity.php           # User identity entity
-│   └── IdentityRepository.php # User persistence logic
+├── User/                # Authentication Identity Module
+│   ├── Identity.php           # Lightweight Auth Identity
+│   └── IdentityRepository.php # Auth-specific persistence
 ├── Web/                 # Web Interface (Feature-based)
 │   ├── Auth/                  # Authentication feature
 │   ├── Dashboard/             # Dashboard feature
