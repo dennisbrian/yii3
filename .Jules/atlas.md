@@ -13,3 +13,13 @@
 **Discovery:** Domain logic is separated into `src/User` (and potentially others), distinct from the Web layer.
 **Implication:** Keeps business logic decoupled from HTTP/Web concerns.
 **Documentation Action:** Highlight the Domain vs. Web separation.
+
+## 2024-05-22 - Data Access Pattern & Schema
+
+**Discovery:** The application uses a strict **Repository Pattern** with **manual hydration**. It does **not** use ActiveRecord. The `UserRepository` uses `yiisoft/db` (Query Builder) to fetch array data and then manually constructs immutable `User` entities.
+**Implication:** Developers should not look for `$user->save()` or `$user->find()`. All persistence logic is in the Repository. Entities are pure data containers.
+**Documentation Action:** Update `ARCHITECTURE.md` to detail this "No ActiveRecord" approach and explain the hydration flow.
+
+**Discovery:** The database schema is defined via `yiisoft/db-migration`. The `user` table is the core entity with fields: `id`, `username`, `email`, `password_hash`, `auth_key`, `status`, `created_at`, `updated_at`.
+**Implication:** Schema source of truth is the migrations.
+**Documentation Action:** Create `DATABASE_SCHEMA.md` to document the current schema and provide a reference.
