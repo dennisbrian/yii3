@@ -11,6 +11,8 @@ Detailed documentation is available in the `docs/` directory:
 -   **[Architecture Overview](docs/ARCHITECTURE.md):** Understand the system design, directory structure, and configuration.
 -   **[Directory Structure](docs/DIRECTORY_STRUCTURE.md):** A map of the codebase.
 -   **[Setup Guide](docs/SETUP.md):** Detailed instructions for setting up the development environment.
+-   **[Database Schema](docs/DATABASE_SCHEMA.md):** Entity relationships and table definitions.
+-   **[API & Routes](docs/API_REFERENCE.md):** Web endpoints and API reference.
 
 ## 🛠️ Tech Stack
 
