@@ -11,6 +11,31 @@ This application is built on **Yii3**, which differs significantly from Yii2.
 
 ## 📂 Application Structure
 
+```mermaid
+graph TD
+    subgraph Web ["Web Layer (src/Web)"]
+        A[Action] --> T[Template]
+    end
+
+    subgraph Auth ["Auth Layer (src/User)"]
+        I[Identity]
+    end
+
+    subgraph Domain ["Domain Layer (src/Entity, src/Repository)"]
+        E[Entity]
+        R[Repository]
+    end
+
+    subgraph Infra ["Infrastructure"]
+        DB[(Database)]
+    end
+
+    A -->|Uses| I
+    A -->|Uses| R
+    R -->|Hydrates| E
+    R -->|Queries| DB
+```
+
 The application follows a modular, feature-based structure rather than a traditional flat MVC (Model-View-Controller) structure.
 
 ### 1. The Web Layer (`src/Web/`)
@@ -62,6 +87,19 @@ Configuration is managed by `yiisoft/config`. Instead of a single config file, c
 The `composer.json` defines a `config-plugin-file`. When the app boots, the plugin merges the files defined in the plan into a single configuration array used to build the DI container.
 
 ## 🔄 Request Lifecycle
+
+```mermaid
+flowchart TD
+    User([User]) -->|Request| Entry[public/index.php]
+    Entry -->|Boot| Container[DI Container]
+    Container -->|Resolve| App
+    App -->|Dispatch| Router
+    Router -->|Match| Route
+    Route -->|Process| Middleware[Middleware Stack]
+    Middleware -->|Invoke| Action[Action Class]
+    Action -->|Return| Response
+    Response -->|Send| User
+```
 
 1.  **Entry Point:** `public/index.php` (for Web) or `yii` (for Console).
 2.  **Container Build:** `yiisoft/config` loads and merges configurations to build the DI Container.

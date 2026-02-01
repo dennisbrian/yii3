@@ -13,3 +13,8 @@
 **Discovery:** Domain logic is separated into `src/User` (and potentially others), distinct from the Web layer.
 **Implication:** Keeps business logic decoupled from HTTP/Web concerns.
 **Documentation Action:** Highlight the Domain vs. Web separation.
+
+## 2026-01-20 - Yii3 Migration Style
+**Discovery:** Migrations use `RevertibleMigrationInterface` and `MigrationBuilder`, moving away from the `safeUp/safeDown` pattern of Yii2.
+**Implication:** Migration code is cleaner and more declarative, but developers need to learn the `MigrationBuilder` API.
+**Documentation Action:** Created `docs/DATABASE_SCHEMA.md` to document the resulting schema and relationship to migrations.
