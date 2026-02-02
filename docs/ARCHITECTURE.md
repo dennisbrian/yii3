@@ -49,6 +49,37 @@ Distinct from the core domain, this module handles Authentication Identity.
     -   **IdentityRepository:** Fetches identities for the `CurrentUser` service.
 -   **Note:** See [Key Components](COMPONENTS.md) for a detailed explanation of the "Two Users" pattern.
 
+```mermaid
+classDiagram
+    class Identity {
+        +getId()
+        +username
+        +passwordHash
+        <<Auth State>>
+    }
+    class User {
+        +id
+        +username
+        +email
+        +status
+        +createdAt
+        <<Domain Entity>>
+    }
+    class IdentityRepository {
+        +findIdentity(id)
+    }
+    class UserRepository {
+        +save(User)
+        +findById(id)
+    }
+
+    Identity <.. IdentityRepository : Returns
+    User <.. UserRepository : Returns
+
+    note "src/User/ (Authentication)" for Identity
+    note "src/Entity/ (Business Domain)" for User
+```
+
 ### 4. Configuration (`config/`)
 Configuration is managed by `yiisoft/config`. Instead of a single config file, configurations are split and merged.
 
@@ -62,6 +93,25 @@ Configuration is managed by `yiisoft/config`. Instead of a single config file, c
 The `composer.json` defines a `config-plugin-file`. When the app boots, the plugin merges the files defined in the plan into a single configuration array used to build the DI container.
 
 ## 🔄 Request Lifecycle
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Entry as public/index.php
+    participant Container as DI Container
+    participant Router
+    participant Middleware
+    participant Action
+
+    Client->>Entry: HTTP Request
+    Entry->>Container: Build (yiisoft/config)
+    Entry->>Middleware: Run Application
+    Middleware->>Router: Match Request
+    Router-->>Middleware: Route Found
+    Middleware->>Action: Invoke
+    Action-->>Middleware: Response
+    Middleware-->>Client: HTTP Response
+```
 
 1.  **Entry Point:** `public/index.php` (for Web) or `yii` (for Console).
 2.  **Container Build:** `yiisoft/config` loads and merges configurations to build the DI Container.

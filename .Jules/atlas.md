@@ -13,3 +13,9 @@
 **Discovery:** Domain logic is separated into `src/User` (and potentially others), distinct from the Web layer.
 **Implication:** Keeps business logic decoupled from HTTP/Web concerns.
 **Documentation Action:** Highlight the Domain vs. Web separation.
+
+## 2026-01-15 - The "Two Users" Pattern
+
+**Discovery:** The codebase strictly separates Authentication Identity (`src/User/Identity`) from the Business Domain Entity (`src/Entity/User`).
+**Implication:** Developers might confuse the two. `Identity` is for session/auth, `User` (Entity) is for business logic and DB mapping.
+**Documentation Action:** Added the "Two Users" section to `COMPONENTS.md` and created diagrams in `ARCHITECTURE.md`.
