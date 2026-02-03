@@ -13,3 +13,21 @@
 **Discovery:** Domain logic is separated into `src/User` (and potentially others), distinct from the Web layer.
 **Implication:** Keeps business logic decoupled from HTTP/Web concerns.
 **Documentation Action:** Highlight the Domain vs. Web separation.
+
+## 2024-05-22 - Documentation Expansion
+
+**Discovery:** Missing `DATABASE_SCHEMA.md`.
+**Implication:** Developers have to read migrations to understand the data model.
+**Documentation Action:** Created `DATABASE_SCHEMA.md` with a Mermaid ERD for the `user` table.
+
+**Discovery:** `src/Environment.php` and `src/autoload.php` were undocumented in the structure.
+**Implication:** These are critical for bootstrapping the application.
+**Documentation Action:** Added them to `DIRECTORY_STRUCTURE.md`.
+
+**Discovery:** Visualizing the Request Lifecycle and Config Merge Plan is crucial for understanding Yii3's complexity.
+**Implication:** Text alone is insufficient.
+**Documentation Action:** Added Mermaid diagrams to `ARCHITECTURE.md`.
+
+**Discovery:** Test suite has environmental issues in the current sandbox (`Dom\HTMLDocument` missing).
+**Implication:** Running tests requires `composer install --ignore-platform-reqs`. Tests may fail due to environment or content mismatches (Homepage content).
+**Documentation Action:** Noted for future reference; did not modify tests to avoid scope creep.

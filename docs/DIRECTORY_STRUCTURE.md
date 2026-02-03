@@ -44,6 +44,8 @@ src/
 │   ├── HomePage/              # Home page feature
 │   ├── Shared/                # Shared web components
 │   └── NotFound/              # 404 handling
+├── Environment.php      # Environment variable helper
+├── autoload.php         # Application bootstrapper
 └── input.css            # Tailwind CSS source file
 ```
 

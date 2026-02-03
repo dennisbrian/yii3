@@ -61,6 +61,31 @@ Configuration is managed by `yiisoft/config`. Instead of a single config file, c
 **How it works:**
 The `composer.json` defines a `config-plugin-file`. When the app boots, the plugin merges the files defined in the plan into a single configuration array used to build the DI container.
 
+```mermaid
+graph TD
+    subgraph Sources
+    CP[common/params.php]
+    WP[web/params.php]
+    EP[environments/dev/params.php]
+    CD[common/di/*.php]
+    WD[web/di/*.php]
+    CR[common/routes.php]
+    end
+
+    subgraph Merge Process
+    CP --> PARAMS[Params Array]
+    WP --> PARAMS
+    EP --> PARAMS
+    PARAMS --> DI
+
+    CD --> DI[DI Container Definition]
+    WD --> DI
+    end
+
+    CR --> ROUTER[Router Config]
+    ROUTER --> DI
+```
+
 ## 🔄 Request Lifecycle
 
 1.  **Entry Point:** `public/index.php` (for Web) or `yii` (for Console).
@@ -69,6 +94,15 @@ The `composer.json` defines a `config-plugin-file`. When the app boots, the plug
 4.  **Middleware:** The request passes through a global middleware pipeline (e.g., ErrorHandler, Session, CSRF).
 5.  **Action:** The matched Action class is instantiated and invoked.
 6.  **Response:** The Action returns a `Response` object (often using a `ViewRenderer`).
+
+```mermaid
+graph TD
+    A[Entry Point\n(public/index.php)] --> B[Build Container\n(yiisoft/config)]
+    B --> C[Router\n(yiisoft/router)]
+    C --> D[Middleware Pipeline\n(ErrorHandler, Session, CSRF)]
+    D --> E[Action\n(e.g., LoginAction)]
+    E --> F[Response]
+```
 
 ## 🎨 Frontend Architecture
 
