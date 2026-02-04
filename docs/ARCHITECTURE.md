@@ -163,6 +163,12 @@ graph TD
 
 ## 💾 Database Access
 
--   **Library:** `yiisoft/db` (Database Abstraction Layer).
--   **Migrations:** Managed via `yiisoft/db-migration` in `migrations/`.
--   **Repositories:** Used to abstract database queries from the business logic.
+The application uses a **Repository Pattern** for data persistence.
+
+-   **Library:** `yiisoft/db` (Database Abstraction Layer) is used for Query Building.
+-   **No ActiveRecord:** We do **not** use the ActiveRecord pattern. Database tables are not mapped 1:1 to logic classes.
+-   **Repository Pattern:** All database queries are encapsulated in Repositories (e.g., `App\Repository\UserRepository`).
+    -   Repositories accept `Yiisoft\Db\Connection\ConnectionInterface`.
+    -   They use `Yiisoft\Db\Query\Query` to fetch data (arrays).
+    -   They manually **hydrate** arrays into immutable Domain Entities (e.g., `App\Entity\User`).
+-   **Migrations:** Database schema changes are managed via `yiisoft/db-migration` in the `migrations/` directory.
