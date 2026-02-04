@@ -10,7 +10,7 @@ This document provides a detailed map of the project's directory structure.
 | `assets/` | Compiled frontend assets (e.g., generated Tailwind CSS). |
 | `config/` | Application configuration files. |
 | `docker/` | Docker infrastructure configuration. |
-| `docs/` | Project documentation. |
+| `docs/` | Project documentation (`ARCHITECTURE.md`, `SETUP.md`, `DATABASE_SCHEMA.md`, `API_REFERENCE.md`). |
 | `migrations/` | Database migration classes. |
 | `node_modules/` | Node.js dependencies. |
 | `public/` | Web server root (contains `index.php`). |

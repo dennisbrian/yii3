@@ -100,6 +100,20 @@ make psalm
 make cs-fix
 ```
 
+## 🌍 Environment Variables
+
+Key environment variables used in `docker/dev/.env` and the application:
+
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `APP_ENV` | `dev` | Application environment (dev, prod, test). |
+| `APP_DEBUG` | `true` | Enable debug mode. |
+| `SERVER_NAME` | `:80` | Web server host binding. |
+| `DEV_PORT` | `8080` | Host port for the web server (defined in `docker/.env`). |
+| `XDEBUG_MODE` | `develop` | Xdebug mode (off, develop, debug, coverage). |
+
+To override these, you can modify `docker/dev/.env` or creating a local `.env` file (if supported by your setup).
+
 ## ⚠️ Troubleshooting
 
 **Port Conflicts:**
