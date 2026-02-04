@@ -46,6 +46,40 @@ A critical architectural distinction in this codebase is the separation between 
 | **Richness** | Minimal (Auth fields only) | Full (All DB columns + logic) |
 | **Used By** | `CurrentUser`, `LoginAction` | `Dashboard`, User Management, Profile |
 
+### Class Diagram
+
+```mermaid
+classDiagram
+    direction TB
+    namespace AuthLayer {
+        class Identity {
+            +string id
+            +string username
+            +string password_hash
+        }
+        class IdentityRepository {
+            +findIdentity(id)
+        }
+    }
+
+    namespace DomainLayer {
+        class User {
+            +int id
+            +string username
+            +string email
+            +int status
+            +timestamp created_at
+        }
+        class UserRepository {
+            +findAll()
+            +save(User)
+        }
+    }
+
+    IdentityRepository ..> Identity : Creates
+    UserRepository ..> User : Creates
+```
+
 ---
 
 ## 🌐 Web Actions (`src/Web/`)
