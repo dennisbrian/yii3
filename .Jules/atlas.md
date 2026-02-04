@@ -31,3 +31,13 @@
 **Discovery:** Test suite has environmental issues in the current sandbox (`Dom\HTMLDocument` missing).
 **Implication:** Running tests requires `composer install --ignore-platform-reqs`. Tests may fail due to environment or content mismatches (Homepage content).
 **Documentation Action:** Noted for future reference; did not modify tests to avoid scope creep.
+
+## 2024-05-23 - Console & Test Structure Discovery
+
+**Discovery:** `src/Console/` contains `CreateAdminCommand` and `HelloCommand`, but they are undocumented.
+**Implication:** Developers may not know how to create admin users or run basic CLI tasks.
+**Documentation Action:** Creating `CLI_REFERENCE.md` to document these commands.
+
+**Discovery:** `docs/DIRECTORY_STRUCTURE.md` lists `Acceptance` tests, but the actual directory contains `Web` tests. `Console` tests are also present but undocumented.
+**Implication:** The documentation is misleading regarding the test suite structure.
+**Documentation Action:** Updating `DIRECTORY_STRUCTURE.md` to match the actual file system.
