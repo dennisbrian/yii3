@@ -79,8 +79,9 @@ docker/
 
 ```
 tests/
-├── Acceptance/          # Browser-based acceptance tests
-├── Functional/          # Controller/API tests
+├── Console/             # Console command tests
+├── Functional/          # Functional tests
 ├── Unit/                # Unit tests for classes
+├── Web/                 # Web acceptance/browser tests
 └── Support/             # Test support classes and helpers
 ```

@@ -12,6 +12,7 @@ Detailed documentation is available in the `docs/` directory:
 -   **[Directory Structure](docs/DIRECTORY_STRUCTURE.md):** A map of the codebase.
 -   **[Setup Guide](docs/SETUP.md):** Detailed instructions for setting up the development environment.
 -   **[Database Schema](docs/DATABASE_SCHEMA.md):** Tables, columns, and relationships.
+-   **[CLI Reference](docs/CLI_REFERENCE.md):** Available console commands.
 
 ## 🛠️ Tech Stack
 
