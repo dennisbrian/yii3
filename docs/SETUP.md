@@ -2,11 +2,19 @@
 
 This guide covers how to set up the development environment, run the application, and execute tests.
 
-## Prerequisites
+## 📋 Project Requirements
 
+While Docker handles most dependencies, you should know the underlying technology stack:
+-   **PHP:** 8.2 - 8.5
+-   **Node.js:** Latest LTS recommended (for Tailwind CSS)
+-   **Database:** MySQL (provided via Docker)
+
+## ⚙️ Prerequisites
+
+To run this project, you only need:
 -   **Docker** (v20.10+)
 -   **Docker Compose** (v2.0+)
--   **Make** (Standard on Linux/Mac, use WSL or Git Bash on Windows)
+-   **Make** (Standard on Linux/Mac; use WSL or Git Bash on Windows)
 
 ## 🚀 Quick Start
 
@@ -125,3 +133,6 @@ If you encounter permission errors on Linux, ensure your user ID matches the con
 export UID=$(shell id -u)
 export GID=$(shell id -g)
 ```
+
+**"Host not found" in Database:**
+Ensure the `mysql` service is running (`docker ps`) and that `config/common/params.php` (or env vars) points to the correct host (usually `mysql` or `db` in Docker).
