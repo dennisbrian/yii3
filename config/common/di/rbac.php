@@ -7,19 +7,18 @@ use Yiisoft\Rbac\AssignmentsStorageInterface;
 use Yiisoft\Rbac\ItemsStorageInterface;
 use Yiisoft\Rbac\Manager;
 use Yiisoft\Rbac\ManagerInterface;
-use Yiisoft\Rbac\Php\AssignmentsStorage;
+use Yiisoft\Rbac\Db\AssignmentsStorage;
 use Yiisoft\Rbac\Php\ItemsStorage;
 
 /**
  * RBAC DI Configuration for Yii3
  * 
- * This configures Role-Based Access Control using PHP file storage.
- * Files are stored in /rbac directory:
- * - items.php: roles and permissions
- * - assignments.php: user-role assignments
+ * This configures Role-Based Access Control using Hybrid storage:
+ * - Roles/Permissions (Items): PHP file (static, read-heavy)
+ * - Assignments: Database (dynamic, write-heavy)
  */
 return [
-    // Items storage (roles, permissions)
+    // Items storage (roles, permissions) - File based
     ItemsStorageInterface::class => [
         'class' => ItemsStorage::class,
         '__construct()' => [
@@ -27,13 +26,8 @@ return [
         ],
     ],
     
-    // Assignments storage (user -> role mappings)
-    AssignmentsStorageInterface::class => [
-        'class' => AssignmentsStorage::class,
-        '__construct()' => [
-            'filePath' => dirname(__DIR__, 2) . '/rbac/assignments.php',
-        ],
-    ],
+    // Assignments storage (user -> role mappings) - Database based
+    AssignmentsStorageInterface::class => AssignmentsStorage::class,
     
     // Manager implements both ManagerInterface and AccessCheckerInterface
     ManagerInterface::class => Manager::class,
