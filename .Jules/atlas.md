@@ -41,3 +41,13 @@
 **Discovery:** `docs/DIRECTORY_STRUCTURE.md` lists `Acceptance` tests, but the actual directory contains `Web` tests. `Console` tests are also present but undocumented.
 **Implication:** The documentation is misleading regarding the test suite structure.
 **Documentation Action:** Updating `DIRECTORY_STRUCTURE.md` to match the actual file system.
+
+## 2024-05-23 - Security & Frontend Structure
+
+**Discovery:** RBAC uses a **Hybrid Storage** model: static roles in PHP files (`ItemsStorage`), dynamic assignments in DB (`AssignmentsStorage`).
+**Implication:** This is a crucial architectural decision. Developers might look for role definitions in the DB and not find them, or try to edit files to change user roles.
+**Documentation Action:** Documented in `ARCHITECTURE.md` with a Mermaid diagram.
+
+**Discovery:** The main layout and global assets are nested in `src/Web/Shared/Layout/Main/`.
+**Implication:** It's not immediately obvious where the "master" HTML template lives.
+**Documentation Action:** Clarified in `DIRECTORY_STRUCTURE.md` and added details to `COMPONENTS.md`.
