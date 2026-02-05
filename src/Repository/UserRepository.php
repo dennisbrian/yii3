@@ -60,16 +60,19 @@ final readonly class UserRepository
     
     /**
      * Get all active users
+     *
+     * @return \Generator<int, User>
      */
-    public function findAllActive(): array
+    public function findAllActive(): \Generator
     {
-        $rows = (new Query($this->db))
+        $query = (new Query($this->db))
             ->from('{{%user}}')
             ->where(['status' => User::STATUS_ACTIVE])
-            ->orderBy(['created_at' => SORT_DESC])
-            ->all();
-            
-        return array_map(fn($row) => $this->hydrate($row), $rows);
+            ->orderBy(['created_at' => SORT_DESC]);
+
+        foreach ($query->each() as $row) {
+            yield $this->hydrate($row);
+        }
     }
     
     /**
