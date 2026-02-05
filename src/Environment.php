@@ -122,11 +122,6 @@ final class Environment
 
     private static function getRawValue(string $key): ?string
     {
-        $value = getenv($key, true);
-        if ($value !== false) {
-            return $value;
-        }
-
         $value = getenv($key);
         if ($value !== false) {
             return $value;
