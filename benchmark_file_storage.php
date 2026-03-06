@@ -9,14 +9,22 @@ if (file_exists($file)) {
 
 // 1. Generate large file
 echo "Generating large assignments file...\n";
-$content = "<?php\n\nreturn [\n    'assignments' => [\n";
+$genStartTime = microtime(true);
+$lines = [];
+$lines[] = "<?php\n\nreturn [\n    'assignments' => [\n";
 for ($i = 0; $i < 10000; $i++) {
-    $content .= "        '$i' => ['user'],\n";
+    $lines[] = "        '$i' => ['user'],\n";
 }
-$content .= "    ],\n];\n";
+$lines[] = "    ],\n];\n";
+$content = implode('', $lines);
+$genEndTime = microtime(true);
 file_put_contents($file, $content);
 
+$genDuration = ($genEndTime - $genStartTime) * 1000; // ms
+echo "Generation time: " . round($genDuration, 4) . " ms\n";
+
 $size = filesize($file);
+echo "File hash: " . md5_file($file) . "\n";
 echo "File generated. Size: " . round($size / 1024, 2) . " KB\n";
 
 // 2. Measure modification
