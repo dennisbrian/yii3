@@ -31,9 +31,7 @@ The source code is organized by **Feature** (Web) and **Domain** (Entity, User, 
 src/
 ├── Console/             # Console commands
 ├── Entity/              # Domain Entities (Business Logic)
-│   └── User.php               # Full User Domain Model
 ├── Repository/          # Domain Repositories (Data Access)
-│   └── UserRepository.php     # User Data Management
 ├── Shared/              # Shared utilities and components
 ├── User/                # Authentication Identity Module
 │   ├── Identity.php           # Lightweight Auth Identity
