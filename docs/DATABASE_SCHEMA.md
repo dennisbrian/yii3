@@ -45,8 +45,7 @@ erDiagram
 
 ## 📝 Notes
 
-*   **Status Codes:** The `status` column maps to constants in `App\Entity\User`:
-    *   `10`: Active (`STATUS_ACTIVE`)
-    *   `9`: Inactive (`STATUS_INACTIVE`)
-    *   `0`: Deleted (`STATUS_DELETED`)
-*   **Immutability:** The `App\Entity\User` class maps to this table but is immutable. Updates require creating a new instance or using the repository to persist changes.
+*   **Status Codes:**
+    *   `10`: Active
+    *   `9`: Inactive
+    *   `0`: Deleted

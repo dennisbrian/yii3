@@ -33,21 +33,12 @@ src/Web/
 │   └── home.php
 ```
 
-### 2. The Domain Layer (`src/Entity`, `src/Repository`)
-Business logic is separated from the HTTP layer.
--   **Purpose:** Encapsulates business rules and data persistence.
--   **Components:**
-    -   **Entities:** Immutable data objects (e.g., `App\Entity\User`).
-    -   **Repositories:** Data access abstraction (e.g., `App\Repository\UserRepository`).
-    -   **Services:** Business operations.
-
-### 3. Authentication Layer (`src/User/`)
-Distinct from the core domain, this module handles Authentication Identity.
+### 2. Authentication and Identity (`src/User/`)
+The application currently uses the `src/User` module to handle both Authentication and basic User identity.
 -   **Purpose:** Manages user sessions and identity verification.
 -   **Components:**
     -   **Identity:** Lightweight object for auth state (e.g., `App\User\Identity`).
-    -   **IdentityRepository:** Fetches identities for the `CurrentUser` service.
--   **Note:** See [Key Components](COMPONENTS.md) for a detailed explanation of the "Two Users" pattern.
+    -   **IdentityRepository:** Fetches identities from the database.
 
 ```mermaid
 classDiagram
@@ -57,30 +48,16 @@ classDiagram
         +passwordHash
         <<Auth State>>
     }
-    class User {
-        +id
-        +username
-        +email
-        +status
-        +createdAt
-        <<Domain Entity>>
-    }
     class IdentityRepository {
         +findIdentity(id)
     }
-    class UserRepository {
-        +save(User)
-        +findById(id)
-    }
 
     Identity <.. IdentityRepository : Returns
-    User <.. UserRepository : Returns
 
     note "src/User/ (Authentication)" for Identity
-    note "src/Entity/ (Business Domain)" for User
 ```
 
-### 4. Configuration (`config/`)
+### 3. Configuration (`config/`)
 Configuration is managed by `yiisoft/config`. Instead of a single config file, configurations are split and merged.
 
 -   **`configuration.php`:** The "Merge Plan". Defines how files are combined.
@@ -167,8 +144,8 @@ The application uses a **Repository Pattern** for data persistence.
 
 -   **Library:** `yiisoft/db` (Database Abstraction Layer) is used for Query Building.
 -   **No ActiveRecord:** We do **not** use the ActiveRecord pattern. Database tables are not mapped 1:1 to logic classes.
--   **Repository Pattern:** All database queries are encapsulated in Repositories (e.g., `App\Repository\UserRepository`).
+-   **Repository Pattern:** All database queries are encapsulated in Repositories (e.g., `App\User\IdentityRepository`).
     -   Repositories accept `Yiisoft\Db\Connection\ConnectionInterface`.
     -   They use `Yiisoft\Db\Query\Query` to fetch data (arrays).
-    -   They manually **hydrate** arrays into immutable Domain Entities (e.g., `App\Entity\User`).
+    -   They manually **hydrate** arrays into immutable objects (e.g., `App\User\Identity`).
 -   **Migrations:** Database schema changes are managed via `yiisoft/db-migration` in the `migrations/` directory.
