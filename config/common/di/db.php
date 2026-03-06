@@ -21,11 +21,11 @@ return [
             new Driver(
                 // DSN format: mysql:host=<host>;dbname=<database>;port=3306
                 // Using MySQL container hostname on shared Docker network
-                dsn: 'mysql:host=' . ($_ENV['DB_HOST'] ?? 'mysql57') 
-                    . ';dbname=' . ($_ENV['DB_NAME'] ?? 'yii3_demo') 
-                    . ';port=' . ($_ENV['DB_PORT'] ?? '3306'),
-                username: $_ENV['DB_USERNAME'] ?? 'root',
-                password: $_ENV['DB_PASSWORD'] ?? 'Root57!',
+                dsn: 'mysql:host=' . ($_ENV['DB_HOST'] ?? '')
+                    . ';dbname=' . ($_ENV['DB_NAME'] ?? '')
+                    . ';port=' . ($_ENV['DB_PORT'] ?? ''),
+                username: $_ENV['DB_USERNAME'] ?? '',
+                password: $_ENV['DB_PASSWORD'] ?? '',
             ),
         ],
     ],
