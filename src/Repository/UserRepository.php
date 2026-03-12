@@ -93,7 +93,16 @@ final readonly class UserRepository
             ])->execute();
             
             $id = (int) $this->db->getLastInsertID();
-            return $this->findById($id);
+            return new User(
+                id: $id,
+                username: $user->username,
+                email: $user->email,
+                passwordHash: $user->passwordHash,
+                authKey: $user->authKey,
+                status: $user->status,
+                createdAt: new \DateTimeImmutable(),
+                updatedAt: new \DateTimeImmutable(),
+            );
         }
         
         // Update existing user
@@ -104,7 +113,16 @@ final readonly class UserRepository
             'status' => $user->status,
         ], ['id' => $user->id])->execute();
         
-        return $this->findById($user->id);
+        return new User(
+            id: $user->id,
+            username: $user->username,
+            email: $user->email,
+            passwordHash: $user->passwordHash,
+            authKey: $user->authKey,
+            status: $user->status,
+            createdAt: $user->createdAt ?? new \DateTimeImmutable(),
+            updatedAt: new \DateTimeImmutable(),
+        );
     }
     
     /**
