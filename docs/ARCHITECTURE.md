@@ -80,7 +80,35 @@ classDiagram
     note "src/Entity/ (Business Domain)" for User
 ```
 
-### 4. Configuration (`config/`)
+### 4. Security & Access Control (RBAC)
+The application uses **Role-Based Access Control (RBAC)** with a **Hybrid Storage** model.
+
+-   **Roles & Permissions (Items):** Stored in **PHP files** (`rbac/items.php`).
+    -   *Why:* Roles (like 'admin') and permissions are static parts of the application code/structure and rarely change at runtime.
+    -   *Storage:* `Yiisoft\Rbac\Php\ItemsStorage`
+-   **Assignments (Users -> Roles):** Stored in the **Database** (`yii_rbac_assignment` table).
+    -   *Why:* User assignments are dynamic; admins need to grant/revoke roles at runtime.
+    -   *Storage:* `Yiisoft\Rbac\Db\AssignmentsStorage`
+
+```mermaid
+graph LR
+    subgraph File System
+    Items[rbac/items.php]
+    end
+
+    subgraph Database
+    AssignDB[(yii_rbac_assignment)]
+    end
+
+    subgraph Application
+    Manager[RBAC Manager]
+    end
+
+    Items -->|Read Roles/Perms| Manager
+    AssignDB <-->|Read/Write User Assignments| Manager
+```
+
+### 5. Configuration (`config/`)
 Configuration is managed by `yiisoft/config`. Instead of a single config file, configurations are split and merged.
 
 -   **`configuration.php`:** The "Merge Plan". Defines how files are combined.

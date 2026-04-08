@@ -106,3 +106,23 @@ The application uses `yiisoft/config` to assemble configuration.
 *   **Routes:** `config/common/routes.php` defines the URL mapping.
 
 **Note:** Do not look for a single `web.php` or `main.php` like in Yii2. The config is an aggregate of many files.
+
+---
+
+## 🎨 Layouts & Frontend Assets
+
+### Main Layout
+*   **Location:** `src/Web/Shared/Layout/Main/layout.php`
+*   **Purpose:** The master template that wraps all page content. It includes the `<html>`, `<head>`, and `<body>` tags.
+
+### Asset Management (`MainAsset`)
+*   **Location:** `src/Web/Shared/Layout/Main/MainAsset.php`
+*   **Purpose:** An **AssetBundle** that manages the publication of the application's CSS and JS.
+*   **Tailwind CSS:** This bundle publishes the compiled `assets/main/tailwind.css` file.
+*   **Usage:** The layout file registers this asset bundle to ensure the CSS is included in the page head.
+
+```php
+// In layout.php
+/** @var Yiisoft\Assets\AssetManager $assetManager */
+$assetManager->register(App\Web\Shared\Layout\Main\MainAsset::class);
+```

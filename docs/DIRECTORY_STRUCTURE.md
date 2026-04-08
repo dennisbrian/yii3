@@ -42,7 +42,8 @@ src/
 │   ├── Auth/                  # Authentication feature
 │   ├── Dashboard/             # Dashboard feature
 │   ├── HomePage/              # Home page feature
-│   ├── Shared/                # Shared web components
+│   ├── Shared/                # Shared components (Layouts, Global Assets)
+│   │   └── Layout/Main/       # Main Layout & Tailwind AssetBundle
 │   └── NotFound/              # 404 handling
 ├── Environment.php      # Environment variable helper
 ├── autoload.php         # Application bootstrapper
