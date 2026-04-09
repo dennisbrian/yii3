@@ -106,3 +106,32 @@ The application uses `yiisoft/config` to assemble configuration.
 *   **Routes:** `config/common/routes.php` defines the URL mapping.
 
 **Note:** Do not look for a single `web.php` or `main.php` like in Yii2. The config is an aggregate of many files.
+
+---
+
+## 🛡️ Role-Based Access Control (RBAC)
+
+The application implements RBAC using a **Hybrid Storage** approach.
+
+### 1. Item Storage (Roles & Permissions)
+*   **Storage:** PHP Files (`Yiisoft\Rbac\Php\ItemsStorage`)
+*   **File:** `rbac/items.php`
+*   **Why:** Roles and permissions are part of the application logic and should be version-controlled.
+
+**Defined Roles:**
+*   `admin`: Full access (inherits `user`).
+*   `user`: Standard authenticated user.
+
+**Defined Permissions:**
+*   `viewDashboard`: Access the dashboard.
+*   `manageUsers`: Create/Edit users.
+*   `viewContent`: View protected content.
+
+### 2. Assignment Storage (User-Role Mapping)
+*   **Storage:** Database (`Yiisoft\Rbac\Db\AssignmentsStorage`)
+*   **Table:** `yii_rbac_assignment` (and related tables).
+*   **Why:** User assignments are dynamic data and belong in the database.
+
+**How to assign roles:**
+*   **Console:** Use the `user:create-admin` command.
+*   **Code:** Use `Yiisoft\Rbac\Manager::assign()`.

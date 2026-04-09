@@ -154,12 +154,33 @@ graph TD
     E --> F[Response]
 ```
 
-## 🎨 Frontend Architecture
+## 🎨 Frontend & Assets
 
--   **Tailwind CSS:** Styling is handled by Tailwind.
--   **Source:** `src/input.css` contains the source CSS and Tailwind directives.
--   **Build:** The CSS is compiled to `assets/main/tailwind.css`.
--   **Integration:** The layout files include the compiled CSS asset.
+The application uses **Tailwind CSS** for styling and `Yiisoft\Assets` for asset management.
+
+### 1. Asset Bundles
+Assets (CSS, JS, Images) are managed via **Asset Bundles**.
+*   **Main Asset:** `App\Web\Shared\Layout\Main\MainAsset` is the primary bundle.
+*   **Definition:** It defines the `sourcePath` (where files live during dev) and `basePath` (where they are published).
+*   **Usage:** In layout files (e.g., `src/Web/Shared/Layout/Main/layout.php`), the asset manager registers this bundle:
+    ```php
+    $assetManager->register(MainAsset::class);
+    ```
+
+### 2. Tailwind CSS Pipeline
+Tailwind is integrated via a Node.js build process (managed by `package.json`).
+
+*   **Source:** `src/input.css` (Contains Tailwind directives).
+*   **Config:** `tailwind.config.js` (Defines content paths to scan for classes).
+*   **Build Output:** `assets/main/tailwind.css`.
+*   **Publishing:** The `MainAsset` bundle points to this generated file.
+
+```mermaid
+graph LR
+    A[src/input.css] -- npm run build --> B[assets/main/tailwind.css]
+    B -- AssetManager --> C[public/assets/...]
+    C -- Browser --> D[Page]
+```
 
 ## 💾 Database Access
 

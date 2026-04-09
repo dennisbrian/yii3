@@ -41,3 +41,13 @@
 **Discovery:** `docs/DIRECTORY_STRUCTURE.md` lists `Acceptance` tests, but the actual directory contains `Web` tests. `Console` tests are also present but undocumented.
 **Implication:** The documentation is misleading regarding the test suite structure.
 **Documentation Action:** Updating `DIRECTORY_STRUCTURE.md` to match the actual file system.
+
+## 2024-05-23 - RBAC & Assets Deep Dive
+
+**Discovery:** RBAC uses a "Hybrid Storage" model: Permissions/Roles in PHP (`rbac/items.php`), Assignments in DB (`yii_rbac_assignment`).
+**Implication:** Roles are version-controlled code, but assignments are runtime data.
+**Documentation Action:** Documented in `COMPONENTS.md` and `DIRECTORY_STRUCTURE.md`.
+
+**Discovery:** Frontend assets use `Yiisoft\Assets` with a build step for Tailwind.
+**Implication:** `src/input.css` is the source, not `assets/main/tailwind.css`. Modifying the latter will be lost on rebuild.
+**Documentation Action:** Explained the pipeline in `ARCHITECTURE.md`.
