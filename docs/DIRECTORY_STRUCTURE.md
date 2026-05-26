@@ -14,6 +14,7 @@ This document provides a detailed map of the project's directory structure.
 | `migrations/` | Database migration classes. |
 | `node_modules/` | Node.js dependencies. |
 | `public/` | Web server root (contains `index.php`). |
+| `rbac/` | Role-Based Access Control definitions (roles, permissions). |
 | `runtime/` | Generated files at runtime (logs, cache, debug data). |
 | `src/` | **Main Application Source Code.** |
 | `tests/` | Codeception and PHPUnit tests. |
@@ -84,4 +85,14 @@ tests/
 ├── Unit/                # Unit tests for classes
 ├── Web/                 # Web acceptance/browser tests
 └── Support/             # Test support classes and helpers
+```
+
+## `rbac/` - Access Control
+
+The application uses a hybrid RBAC system.
+
+```
+rbac/
+├── items.php            # PHP-based definition of Roles and Permissions
+└── assignments.php      # (Generated) File-based assignments (if not using DB)
 ```
