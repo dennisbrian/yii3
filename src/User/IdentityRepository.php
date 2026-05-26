@@ -31,7 +31,7 @@ final readonly class IdentityRepository implements IdentityRepositoryInterface
             ->where(['id' => $id])
             ->one();
             
-        if ($row === false) {
+        if ($row === false || $row === null) {
             return null;
         }
         
@@ -48,7 +48,7 @@ final readonly class IdentityRepository implements IdentityRepositoryInterface
             ->where(['auth_key' => $token])
             ->one();
             
-        if ($row === false) {
+        if ($row === false || $row === null) {
             return null;
         }
         
